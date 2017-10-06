@@ -23,6 +23,7 @@ private :
 	double tau_;
 	double tau_ref_;
 	double Vreset_;
+	double Vthreshold_;
 	double h_;
 	double R_;
 	
@@ -35,7 +36,7 @@ private :
 	
 public :
 	Neuron();
-	Neuron (double c,double t,double tr,double v,double h,double r);
+	Neuron (double c,double t,double tr,double v,double vt, double h,double r);
 	
 //methods used in update, to determine and set potential	
 	void ifPotMaxReached();

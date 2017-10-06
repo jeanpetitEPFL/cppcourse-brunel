@@ -7,11 +7,11 @@ using namespace std;
 
 void simulation (Neuron& a)
 	{	
-		double I (100);
+		double I (1);
 		ofstream myfile;
 		myfile.open ("neurontest.txt");
 		double simtime(0.0);
-		double tstop (10);
+		double tstop (1000);
 		while (simtime < tstop)
 		{
 			a.update(I);

@@ -1,8 +1,8 @@
 #include "neuron.hpp"
 //#include <iostream>
-#include <cmath>
-#include <vector>
-#include <fstream>
+//#include <cmath>
+//#include <vector>
+//#include <fstream>
 
 using namespace std;
 
@@ -34,7 +34,7 @@ using namespace std;
 // and if, push into spiketime the internal time of the neuron.	
 	void Neuron::ifPotMaxReached()
 	{
-		if (membrane_pot_>= -55)
+		if (membrane_pot_>= Vthreshold_)
 		{
 			//setMembPot(POTENTIELMAX); ????
 			++ nb_spikes_;
@@ -50,7 +50,7 @@ using namespace std;
 		setMembPot(New);
 
 	}
-// set the potential at Vreset=-70
+// set the potential at Vreset=0
 // after a spike	
 	void Neuron::SetNewPot()
 	{
@@ -73,7 +73,7 @@ using namespace std;
 
 		else 
 		{		
-			if (internal_time_ - spikes_time_.back()>= tau_ref_)
+			if (internal_time_ - spikes_time_.back()>= tau_ref_) //determine if refractory time is over
 			{
 				SetPot(I);
 				
@@ -89,15 +89,15 @@ using namespace std;
 	}
 	
 // CONSTRUCTORS	
-	Neuron::Neuron(double c,double t,double tr,double v,double h,double r)
-	:C_(c), tau_(t), tau_ref_(tr),Vreset_(v), h_(h), R_(r)
+	Neuron::Neuron(double c,double t,double tr,double v, double vt, double h,double r)
+	:C_(c), tau_(t), tau_ref_(tr),Vreset_(v), Vthreshold_(vt), h_(h), R_(r)
 	{
 		membrane_pot_=Vreset_;
 		nb_spikes_=0.0;
 	}
 	
 	Neuron::Neuron()
-	:C_(250.0), tau_(10.0), tau_ref_(2.0), Vreset_(-70.0),h_(0.1), R_(1.0)
+	:C_(1), tau_(20.0), tau_ref_(2.0), Vreset_(0.0),Vthreshold_(19.0), h_(0.1), R_(20.0)
 	{
 		membrane_pot_=Vreset_;
 		nb_spikes_=0.0;
