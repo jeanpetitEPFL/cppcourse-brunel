@@ -36,7 +36,6 @@ using namespace std;
 	{
 		if (membrane_pot_>= Vthreshold_)
 		{
-			//setMembPot(POTENTIELMAX); ????
 			++ nb_spikes_;
 			spikes_time_.push_back(internal_time_);
 		}
