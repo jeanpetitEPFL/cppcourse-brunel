@@ -96,7 +96,7 @@ using namespace std;
 	}
 	
 	Neuron::Neuron()
-	:C_(1), tau_(20.0), tau_ref_(2.0), Vreset_(0.0),Vthreshold_(19.0), h_(0.1), R_(20.0)
+	:C_(1), tau_(20.0), tau_ref_(2.0), Vreset_(0.0),Vthreshold_(20.0), h_(0.1), R_(20.0)
 	{
 		membrane_pot_=Vreset_;
 		nb_spikes_=0.0;
