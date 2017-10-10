@@ -30,6 +30,18 @@ using namespace std;
 		return h_;
 	}
 	
+	double Neuron::getInternalTime()
+	{
+		return internal_time_;
+	}
+	
+	vector<double> Neuron::getSpikesTime()
+	{
+		return spikes_time_;
+	}
+
+
+	
 // determine if the potential max is reached
 // and if, push into spiketime the internal time of the neuron.	
 	void Neuron::ifPotMaxReached()
@@ -58,24 +70,9 @@ using namespace std;
 		New= Vreset_;
 		setMembPot(New);
 	}
-//recieve J from an other neuron when threshold depassed
-void Neuron::recieve(Neuron& a)
-{
-		if (a.spikes_time_.empty())
-		{
-			setMembPot(getMembpot());
-		}	
-		else {
-			double New;
-			size_t x;
-			x= a.spikes_time_.size()-1;
-			if(a.spikes_time_[x]== internal_time_)
-			{ New+=0.4; }	
-			setMembPot(getMembpot()+New);	
-		}		
-}
+
 // update the neuron's potential every h time	
-	void Neuron::update (double I, Neuron& a)
+	void Neuron::update (double I)
 	{
 		internal_time_+=h_;
 		
@@ -85,8 +82,6 @@ void Neuron::recieve(Neuron& a)
 			SetPot(I);
 			
 			ifPotMaxReached();
-			
-			recieve(a);
 		}		
 
 		else 
@@ -96,8 +91,6 @@ void Neuron::recieve(Neuron& a)
 				SetPot(I);
 				
 				ifPotMaxReached();
-				
-				recieve (a);
 			}
 			else 
 			{

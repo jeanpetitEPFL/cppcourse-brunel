@@ -23,7 +23,21 @@ void simulation (Neuron& a)
 	}	
 	*/
 	
-	
+void recieve(Neuron& b, Neuron& a)
+{
+		if (a.getSpikesTime().empty())
+		{
+			b.setMembPot(b.getMembpot());
+		}	
+		else {
+			double New;
+			size_t x;
+			x= a.getSpikesTime().size()-1;
+			if(a.getSpikesTime()[x]== b.getInternalTime())
+			{ New+=0.4; }	
+			b.setMembPot(b.getMembpot()+New);	
+		}
+}
 void simulation (Neuron& a, Neuron& b)
 	{	
 		double I (10);
@@ -36,8 +50,10 @@ void simulation (Neuron& a, Neuron& b)
 		double tstop (200);
 		while (simtime < tstop)
 		{
-			a.update(I,b);
-			b.update(0, a);
+			a.update(I);
+			b.update(0);
+			recieve(b,a);
+			recieve(a,b);
 			myfile << a.getMembpot()<<endl;
 			myfile2 << b.getMembpot()<<endl;
 

@@ -43,9 +43,9 @@ public :
 	void ifPotMaxReached();
 	void SetPot(double I);
 	void SetNewPot();
-	void recieve (Neuron& a);
+	
 //update neuron's potential state
-	void update (double I, Neuron& a);
+	void update (double I);
 	
 //SETTERS	
 	void setMembPot(double m);
@@ -55,8 +55,9 @@ public :
 	double getH();
 	double getMembpot();
 	int getNbSpikes();
+	double getInternalTime();
 	
-	//vector<double> getSpikesTime();
+	vector<double> getSpikesTime();
 	
 
 	
