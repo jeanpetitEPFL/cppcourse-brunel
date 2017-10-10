@@ -1,35 +1,22 @@
-#include "neuron.hpp"
-#include "neuron.cpp"
+//#include "neuron.hpp"
+//#include "neuron.cpp"
+#include "network.cpp"
 #include <fstream>
 #include <iostream>
 using namespace std;
 
-/*
-void simulation (Neuron& a)
-	{	
-		double I (1);
-		ofstream myfile;
-		myfile.open ("neurontest.txt");
-		double simtime(0.0);
-		double tstop (1000);
-		while (simtime < tstop)
-		{
-			a.update(I);
-			myfile << a.getMembpot()<<endl;
-			simtime+=a.getH();
-		}
-	cout<< a.getNbSpikes()<<endl;
-	myfile.close();
-	}	
-	*/
-	
-void recieve(Neuron& b, Neuron& a)
+void ifneverspiked(Neuron& a, Neuron& b)
 {
-		if (a.getSpikesTime().empty())
+	if (a.getSpikesTime().empty())
 		{
 			b.setMembPot(b.getMembpot());
 		}	
-		else {
+}
+
+void ifalreadyspiked(Neuron& a, Neuron& b)
+{
+if(!a.getSpikesTime().empty())		
+		{
 			double New;
 			size_t x;
 			x= a.getSpikesTime().size()-1;
@@ -37,7 +24,17 @@ void recieve(Neuron& b, Neuron& a)
 			{ New+=0.4; }	
 			b.setMembPot(b.getMembpot()+New);	
 		}
+	
 }
+
+void recieve(Neuron& b, Neuron& a)
+{
+		ifneverspiked(a,b);
+		ifalreadyspiked(a,b);
+		
+}
+
+
 void simulation (Neuron& a, Neuron& b)
 	{	
 		double I (10);
@@ -65,7 +62,6 @@ void simulation (Neuron& a, Neuron& b)
 	myfile.close();
 	myfile2.close();
 	}	
-
 
 int main()
 {
