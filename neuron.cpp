@@ -46,6 +46,7 @@ using namespace std;
 	{
 		double New;
 		New = ((exp(-h_/tau_) * membrane_pot_)+ (I*R_*(1-exp(-h_/tau_))));
+		
 		setMembPot(New);
 
 	}
@@ -57,17 +58,35 @@ using namespace std;
 		New= Vreset_;
 		setMembPot(New);
 	}
+//recieve J from an other neuron when threshold depassed
+void Neuron::recieve(Neuron& a)
+{
+		if (a.spikes_time_.empty())
+		{
+			setMembPot(getMembpot());
+		}	
+		else {
+			double New;
+			size_t x;
+			x= a.spikes_time_.size()-1;
+			if(a.spikes_time_[x]== internal_time_)
+			{ New+=0.4; }	
+			setMembPot(getMembpot()+New);	
+		}		
+}
 // update the neuron's potential every h time	
-	void Neuron::update (double I)
+	void Neuron::update (double I, Neuron& a)
 	{
 		internal_time_+=h_;
 		
 		if (spikes_time_.empty())
 		{
-			//SetNewPot();
+			
 			SetPot(I);
 			
 			ifPotMaxReached();
+			
+			recieve(a);
 		}		
 
 		else 
@@ -77,14 +96,15 @@ using namespace std;
 				SetPot(I);
 				
 				ifPotMaxReached();
+				
+				recieve (a);
 			}
 			else 
 			{
 				SetNewPot();
 			}
 		 
-		}		
-			
+		}
 	}
 	
 // CONSTRUCTORS	
@@ -104,5 +124,4 @@ using namespace std;
 	}
 // DESTRUCTORS	
 	Neuron::~Neuron()
-	{}
-	
+{}

@@ -14,6 +14,7 @@ private :
 	double membrane_pot_;
 	int nb_spikes_;
 	vector <double> spikes_time_;
+	vector <double> time_buffer_;
 	
 // initial state of the values
 // can be changed of place	
@@ -42,9 +43,9 @@ public :
 	void ifPotMaxReached();
 	void SetPot(double I);
 	void SetNewPot();
-
+	void recieve (Neuron& a);
 //update neuron's potential state
-	void update (double I);
+	void update (double I, Neuron& a);
 	
 //SETTERS	
 	void setMembPot(double m);
