@@ -8,6 +8,6 @@ set(CMAKE_CXX_FLAGS"-W -Wall -pedantic -std=c++11")
 project(neuron)
 
 # On indique que l'on veut un exécutable "main" 
-add_executable(main main.cpp neuron_2.cpp network_2.cpp)
+add_executable(main main_2.cpp neuron_2.cpp network_2.cpp)
 
 
