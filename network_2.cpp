@@ -33,7 +33,7 @@ void Network::simulation(double tstart, double tstop, double I) {
 
 		if(alpha_.ifPotMaxReached()) 
 		{
-			beta_.updatebuffer((alpha_.getInternalTime() + alpha_.getDelay()) % 4);
+			beta_.updatebuffer((beta_.getInternalTime() + alpha_.getDelay()) % 4);
 
 		}
 	
@@ -41,7 +41,7 @@ void Network::simulation(double tstart, double tstop, double I) {
 
 		if(beta_.ifPotMaxReached()) {
 
-			alpha_.updatebuffer((beta_.getInternalTime() + beta_.getDelay()) % 4);
+			alpha_.updatebuffer((alpha_.getInternalTime() + beta_.getDelay()) % 4);
 
 		}
 
