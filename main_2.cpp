@@ -7,7 +7,7 @@ using namespace std;
 
 int main()
 {
-	Neuron a(15,0.4);
+	Neuron a(15,0.4); //delay  ms, J=0.4 mV
 	Neuron b(15,0.4);
 	Network alpha(a,b);
 	

@@ -8,8 +8,8 @@ Neuron::Neuron(int Delay, double J)
 {
 	membrane_pot_=Vreset_;
 	nb_spikes_=0.0;
-	time_buffer_ = vector<double>(16,0);
-	
+	time_buffer_ = vector<double>((delay_+1),0);
+//buffer vector size : delay+1
 }
 	
 // GETTERS	
@@ -53,9 +53,12 @@ Neuron::Neuron(int Delay, double J)
 	}
 
 	
-//update the buffer time
-void Neuron::updatebuffer(int pos)
+//update the buffer time ;
+//send an assert
+//add J in the buffer's position chosen
+	void Neuron::updatebuffer(int pos)
 	{
+		assert(pos<time_buffer_.size());
 		time_buffer_[pos]+=J_;
 	}
 	
@@ -69,32 +72,37 @@ void Neuron::updatebuffer(int pos)
 		else 
 		{ return false; }
 	}
-	
+
+//when Vthreshold reached, add internal time into the spikestime vector
+//then set the membrane potential to Vreset 
 	void Neuron::PotMaxReached ()
 	{
 			++ nb_spikes_;
 			
 			spikes_time_.push_back(internal_time_*h_);
-			cout<<internal_time_<<endl;
 			SetNewPot();
 	}
 	
+//return if refractory time is over
 	bool Neuron::Refractory()
 	{
 		if(internal_time_ *h_- spikes_time_.back()>= tau_ref_ )
 		{ return true;}
-		
 	}
+	
 // set the increase of the potential 
-// when the neuron is not in its refractory time	
+// when the neuron is not in its refractory time
+
+//+ add J from other neurons that spiked
+//then clear the current buffer position	
 	void Neuron::SetPot(double I)
 	{
 		double New;
 		New = ((exp(-h_/tau_) * membrane_pot_)+ (I*R_*(1-exp(-h_/tau_))) + time_buffer_[internal_time_%(delay_+1)]);
 		setMembPot(New);
 		time_buffer_[internal_time_%(delay_+1)] =0.0;
-
 	}
+	
 // set the potential at Vreset=0
 // after a spike	
 	void Neuron::SetNewPot()
@@ -103,6 +111,7 @@ void Neuron::updatebuffer(int pos)
 		New= Vreset_;
 		setMembPot(New);
 	}
+	
 // update the neuron's potential every h time	
 	bool Neuron::update (double const&  I)
 	{
@@ -115,12 +124,10 @@ void Neuron::updatebuffer(int pos)
 				PotMaxReached();
 				return true;
 			}
-			
 		}		
-
 		else 
 		{		
-			if (Refractory() and !ifPotMaxReached()) //determine if refractory time is over
+			if (Refractory() and !ifPotMaxReached()) //determine if refractory time is over and if membrane potential >=Vthreshold
 			{
 				SetPot(I);
 			}
@@ -131,6 +138,5 @@ void Neuron::updatebuffer(int pos)
 				return true;
 			}
 		}
-	
 	}
 	

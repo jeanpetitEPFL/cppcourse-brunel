@@ -4,7 +4,8 @@
 #include <cmath>
 #include <vector>
 #include <fstream>
-//#include <array>
+#include <cassert>
+
 
 
 using namespace std;
@@ -57,6 +58,7 @@ void PotMaxReached();
 void SetPot(double I);
 void SetNewPot();
 bool Refractory();
+
 //update neuron's potential state
 bool update (double const& I);
 	
