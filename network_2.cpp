@@ -27,13 +27,13 @@ void Network::simulation(double tstart, double tstop, double I) {
 
 	
 
-	while(global_time_ < tstop) {
+	while((global_time_*alpha_.getH()) < tstop) {
 
 		//alpha_.update(I);
 
 		if(alpha_.update(I)) 
 		{
-			beta_.updatebuffer((beta_.getInternalTime() + alpha_.getDelay()) % 16);
+			beta_.updatebuffer((beta_.getInternalTime() + alpha_.getDelay()) % (alpha_.getDelay()+1));
 
 		}
 	
@@ -41,11 +41,11 @@ void Network::simulation(double tstart, double tstop, double I) {
 
 		if(beta_.update(0)) {
 
-			alpha_.updatebuffer((alpha_.getInternalTime() + beta_.getDelay()) % 16);
+			alpha_.updatebuffer((alpha_.getInternalTime() + beta_.getDelay()) % (beta_.getDelay()+1));
 
 		}
 
-		global_time_ += alpha_.getH() ;
+		global_time_ += 1 ;
 		myfile << alpha_.getMembpot()<<endl;
 		myfile2 << beta_.getMembpot()<<endl;
 

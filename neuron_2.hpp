@@ -22,7 +22,7 @@ int internal_time_;
 double J_;
 	
 
-	 double C_ =(1.0); 
+	 double C_ =(40.0); 
 	 double tau_ =(20.0);
 	 double tau_ref_ =(2.0);
 	 double Vreset_ =(0.0);
@@ -58,7 +58,7 @@ void SetPot(double I);
 void SetNewPot();
 bool Refractory();
 //update neuron's potential state
-bool update (double I);
+bool update (double const& I);
 	
 //update buffer
 void updatebuffer (int pos);

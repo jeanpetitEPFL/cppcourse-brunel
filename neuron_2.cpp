@@ -75,7 +75,7 @@ void Neuron::updatebuffer(int pos)
 			++ nb_spikes_;
 			
 			spikes_time_.push_back(internal_time_*h_);
-			
+			cout<<internal_time_<<endl;
 			SetNewPot();
 	}
 	
@@ -90,9 +90,9 @@ void Neuron::updatebuffer(int pos)
 	void Neuron::SetPot(double I)
 	{
 		double New;
-		New = ((exp(-h_/tau_) * membrane_pot_)+ (I*R_*(1-exp(-h_/tau_))) + time_buffer_[internal_time_%16]);
+		New = ((exp(-h_/tau_) * membrane_pot_)+ (I*R_*(1-exp(-h_/tau_))) + time_buffer_[internal_time_%(delay_+1)]);
 		setMembPot(New);
-		time_buffer_[internal_time_%16] =0.0;
+		time_buffer_[internal_time_%(delay_+1)] =0.0;
 
 	}
 // set the potential at Vreset=0
@@ -104,7 +104,7 @@ void Neuron::updatebuffer(int pos)
 		setMembPot(New);
 	}
 // update the neuron's potential every h time	
-	bool Neuron::update (double I)
+	bool Neuron::update (double const&  I)
 	{
 		internal_time_+=1;
 		if (spikes_time_.empty())
@@ -112,8 +112,8 @@ void Neuron::updatebuffer(int pos)
 			SetPot(I);
 			if(ifPotMaxReached())
 			{
-			PotMaxReached();
-			return true;
+				PotMaxReached();
+				return true;
 			}
 			
 		}		
@@ -125,13 +125,11 @@ void Neuron::updatebuffer(int pos)
 				SetPot(I);
 			}
 			
-				if(ifPotMaxReached())
-				{
+			if(ifPotMaxReached())
+			{
 				PotMaxReached();
 				return true;
-				}
-			
-		 
+			}
 		}
 	
 	}
