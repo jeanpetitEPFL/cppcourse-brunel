@@ -29,19 +29,19 @@ void Network::simulation(double tstart, double tstop, double I) {
 
 	while(global_time_ < tstop) {
 
-		alpha_.update(I);
+		//alpha_.update(I);
 
-		if(alpha_.ifPotMaxReached()) 
+		if(alpha_.update(I)) 
 		{
-			beta_.updatebuffer((beta_.getInternalTime() + alpha_.getDelay()) % 4);
+			beta_.updatebuffer((beta_.getInternalTime() + alpha_.getDelay()) % 16);
 
 		}
 	
-		beta_.update(0);
+		//beta_.update(0);
 
-		if(beta_.ifPotMaxReached()) {
+		if(beta_.update(0)) {
 
-			alpha_.updatebuffer((alpha_.getInternalTime() + beta_.getDelay()) % 4);
+			alpha_.updatebuffer((alpha_.getInternalTime() + beta_.getDelay()) % 16);
 
 		}
 

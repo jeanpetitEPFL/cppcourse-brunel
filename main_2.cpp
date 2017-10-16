@@ -7,11 +7,11 @@ using namespace std;
 
 int main()
 {
-	Neuron a(2,4);
-	Neuron b(3,4);
+	Neuron a(15,0.4);
+	Neuron b(15,0.4);
 	Network alpha(a,b);
 	
-	alpha.simulation(0,200, 1.5);
+	alpha.simulation(0,200, 1.01);
 	
 	
 	return 0;

@@ -56,9 +56,9 @@ bool ifPotMaxReached();
 void PotMaxReached();
 void SetPot(double I);
 void SetNewPot();
-	
+bool Refractory();
 //update neuron's potential state
-void update (double I);
+bool update (double I);
 	
 //update buffer
 void updatebuffer (int pos);
