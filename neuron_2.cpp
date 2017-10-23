@@ -17,8 +17,8 @@ Neuron::Neuron(int Delay, double J)
 	{
 		return membrane_pot_;
 	}
-	
-	int Neuron::getNbSpikes() const
+
+	int Neuron::getNbSpikes() 
 	{
 		return nb_spikes_;
 	}
@@ -52,14 +52,20 @@ Neuron::Neuron(int Delay, double J)
 		nb_spikes_=nbs;
 	}
 
-	
+	void Neuron::setEx (bool alpha)
+	{
+		E_ = alpha;
+	}
 //update the buffer time ;
 //send an assert
 //add J in the buffer's position chosen
-	void Neuron::updatebuffer(int pos)
+	void Neuron::updatebuffer(int pos, Neuron n)
 	{
 		assert(pos<time_buffer_.size());
-		time_buffer_[pos]+=J_;
+		if (n.E_)
+			{	time_buffer_[pos]+=J_; }
+		else 
+			{time_buffer_[pos]+= -5*J_;}
 	}
 	
 	
@@ -77,7 +83,7 @@ Neuron::Neuron(int Delay, double J)
 //then set the membrane potential to Vreset 
 	void Neuron::PotMaxReached ()
 	{
-			++ nb_spikes_;
+		nb_spikes_+=1;
 			
 			spikes_time_.push_back(internal_time_*h_);
 			SetNewPot();

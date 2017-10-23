@@ -20,8 +20,11 @@ vector <double> spikes_time_;
 vector <double> time_buffer_;
 int delay_;	
 int internal_time_;
-double J_;
-	
+//true if exitatory
+//false if inhibitory
+bool E_;
+double J_ = 0.1;
+
 
 	 double C_ =(40.0); 
 	 double tau_ =(20.0);
@@ -39,7 +42,10 @@ Neuron(int Delay, double J);
 // GETTERS	
 double getH() const;
 double getMembpot() const ;
-int getNbSpikes() const;
+	/**
+	 * @return number of spikes occured 
+	 */
+int getNbSpikes() ;
 int getInternalTime() const;
 int getDelay() const;	
 
@@ -50,6 +56,8 @@ vector<double> getSpikesTime();
 //SETTERS
 void setMembPot(double m);
 void setNbSpikes (int nbs);
+void setEx(bool alpha);
+
 
 
 //methods used in update, to determine and set potential	
@@ -63,7 +71,7 @@ bool Refractory();
 bool update (double const& I);
 	
 //update buffer
-void updatebuffer (int pos);
+void updatebuffer (int pos, Neuron n);
 
 //DESTRUCTOR
 //~Neuron();	
