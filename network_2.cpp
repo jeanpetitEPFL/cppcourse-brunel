@@ -1,14 +1,12 @@
 #include "network_2.hpp"
-#include <random>
-
-
-
 
 using namespace std;
 
-Network::Network(Neuron a, Neuron b)
-:alpha_(a), beta_(b)
-{}
+Network::Network(int i, int j)
+:c_table_(i, vector<int>(j,1))
+{
+	set_connectivity();
+}
 
 double Network::getGlobalTime()
 {
@@ -19,58 +17,61 @@ int Network::compteur(int i)
 	return i;
 }
 
-int Network::simulation(double tstart, double tstop, double I) 
+void Network::simulation(double tstart, double tstop, double I) 
 {
 	global_time_ = tstart;
 
-	ofstream myfile;
+	/*ofstream myfile;
 	ofstream myfile2;
 	myfile.open ("neurontest.txt");				
 	myfile2.open ("neurontest2.txt");
 	
 	int compteur(0);
-	
-
-	while((global_time_*alpha_.getH()) < tstop) 
+	* 
+	*/
+	//ofstream myfile;
+	//myfile.open ("neurontest.txt");
+	while((global_time_*network_[0]->getH()) < tstop) 
 	{
-
-
-//in the same time update alpha_ et ask if it spiked
-//-->if;update beta_ buffer's current position + delay value
-		if(alpha_.update(I))
-		{
-			//cout<< global_time_<<endl;
-			++compteur;
-			beta_.updatebuffer((beta_.getInternalTime() + alpha_.getDelay()) % (alpha_.getDelay()+1), alpha_);
-		}
 		
-//same for beta_
-		if(beta_.update(0)) 
-		{
-			alpha_.updatebuffer((alpha_.getInternalTime() + beta_.getDelay()) % (beta_.getDelay()+1), beta_);
-		}
+		cout<<network_[10]->getMembpot()<<" "<<flush;
 		
-//increase global_time_ of simulation
-
-		global_time_ += 1 ;
-//write potentials into ofstream myfiles.txt
-		myfile << alpha_.getMembpot()<<endl;
-		myfile2 << beta_.getMembpot()<<endl;
-	}
-//return total of spikes for both neurons
-	//cout<< alpha_.getNbSpikes()<<endl;
-	//cout<< beta_.getNbSpikes()<<endl;
-
-//close ofstream
-	myfile.close();
-	myfile2.close();
+		//	myfile << network_[0]->getMembpot()<<" "<<flush;
+		//cout << network_[1]->getMembpot()<<" "<<flush;
+		
+		
+		for (size_t i = 0; i < network_.size(); i++)
+		{
+			//cout<< i <<" "<<flush;
+			//cout<<network_[i]->getMembpot()<<" "<<flush;
+			//	myfile << network_[i]->getMembpot()<<" "<<flush;
+			if (network_[i]->update(I))
+				{
+					for (int j = 0; j <network_.size() ; j++)
+					{	//cout<<network_[j]->getInternalTime()<< endl;
+						//cout<<network_[i]->getDelay()<<endl;
+						if (network_[i]->getEx())
+						{
+							network_[j]->updatebuffer((network_[i]->getInternalTime()+network_[i]->getDelay())%(network_[i]->getDelay()+1),c_table_[i][j]*5*network_[i]->getJ());
+						}
+						else
+						{
+							network_[j]->updatebuffer((network_[i]->getInternalTime()+network_[i]->getDelay())%(network_[i]->getDelay()+1),c_table_[i][j]*network_[i]->getJ());
+						}
+					}	
+				}
 	
-	return compteur;
-}
+		}
+		global_time_ += 1 ;
+	}
+}	
+
+	//myfile.close();
 
 void Network:: addNeuron()
 {
-	network_.push_back(new Neuron(15, 0.1));
+	network_.push_back(new Neuron());
+	
 }
 void Network::set_connectivity()
 {
@@ -78,8 +79,9 @@ void Network::set_connectivity()
 	{
 		addNeuron();
 		network_[i]->setEx(true);
+	
 	}
-	for (size_t i(nb_exitatory+1); i<network_.size(); ++i)
+	for (size_t i(0); i<nb_inhibitory; ++i)
 	{
 		addNeuron();
 		network_[i]->setEx(false);
@@ -91,13 +93,24 @@ void Network::set_connectivity()
 		mt19937 gen(rd());
 		for (int j = 0; j < CE_; j++)
 		{
-			uniform_int_distribution<int> d(0,nb_exitatory-1);
-			c_table_[i][d(gen)]+=1; 
+			uniform_int_distribution<> dis(0,nb_exitatory-1); 
+			c_table_[i][dis(gen)]+=1; 
 		}
 		for (int j = 0; j < CI_ ; j++)
 		{
-			uniform_int_distribution<int> d(nb_exitatory, network_.size());
+			uniform_int_distribution<> d(nb_exitatory, network_.size());
 			c_table_[i][d(gen)]+=1;
 		}	
 	}
+
+}
+
+Network::~Network()
+{
+	for (int i = 0; i < network_.size(); i++)
+	{
+		network_[i]=nullptr;
+		delete network_[i];
+	}
+	
 }

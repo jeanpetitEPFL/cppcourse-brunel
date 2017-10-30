@@ -3,8 +3,7 @@
 
 using namespace std;
 
-Neuron::Neuron(int Delay, double J)
-:delay_(Delay),J_(J)
+Neuron::Neuron()
 {
 	membrane_pot_=Vreset_;
 	nb_spikes_=0.0;
@@ -18,7 +17,7 @@ Neuron::Neuron(int Delay, double J)
 		return membrane_pot_;
 	}
 
-	int Neuron::getNbSpikes() 
+	int Neuron::getNbSpikes() const
 	{
 		return nb_spikes_;
 	}
@@ -42,6 +41,16 @@ Neuron::Neuron(int Delay, double J)
 		return delay_;
 	}
 	
+	bool Neuron::getEx()
+	{
+		return E_;
+	}
+	
+	double Neuron::getJ()
+	{
+		return J_;
+	}
+	
 // SETTERS	
 	void Neuron::setMembPot(double m)
 	{
@@ -59,13 +68,10 @@ Neuron::Neuron(int Delay, double J)
 //update the buffer time ;
 //send an assert
 //add J in the buffer's position chosen
-	void Neuron::updatebuffer(int pos, Neuron n)
+	void Neuron::updatebuffer(int pos, double value)
 	{
-		assert(pos<time_buffer_.size());
-		if (n.E_)
-			{	time_buffer_[pos]+=J_; }
-		else 
-			{time_buffer_[pos]+= -5*J_;}
+		assert(pos<=time_buffer_.size());
+		time_buffer_[pos]+=value; 
 	}
 	
 	
@@ -103,8 +109,12 @@ Neuron::Neuron(int Delay, double J)
 //then clear the current buffer position	
 	void Neuron::SetPot(double I)
 	{
+		random_device rd;
+		mt19937 gen(rd());
+		poisson_distribution<int> pois(0.2);
 		double New;
-		New = ((exp(-h_/tau_) * membrane_pot_)+ (I*R_*(1-exp(-h_/tau_))) + time_buffer_[internal_time_%(delay_+1)]);
+		
+		New = ((exp(-h_/tau_) * membrane_pot_)+ (I*R_*(1-exp(-h_/tau_))) + time_buffer_[internal_time_%(delay_+1)] +pois(gen)*0.1);
 		setMembPot(New);
 		time_buffer_[internal_time_%(delay_+1)] =0.0;
 	}
@@ -116,6 +126,7 @@ Neuron::Neuron(int Delay, double J)
 		double New;
 		New= Vreset_;
 		setMembPot(New);
+		time_buffer_[internal_time_%(delay_+1)] =0.0;
 	}
 	
 // update the neuron's potential every h time	
@@ -127,12 +138,14 @@ Neuron::Neuron(int Delay, double J)
 			SetPot(I);
 			if(ifPotMaxReached())
 			{
+				
 				PotMaxReached();
 				return true;
 			}
 		}		
 		else 
 		{		
+			if(!Refractory()) {SetNewPot();}
 			if (Refractory() and !ifPotMaxReached()) //determine if refractory time is over and if membrane potential >=Vthreshold
 			{
 				SetPot(I);
@@ -140,6 +153,7 @@ Neuron::Neuron(int Delay, double J)
 			
 			if(ifPotMaxReached())
 			{
+				
 				PotMaxReached();
 				return true;
 			}

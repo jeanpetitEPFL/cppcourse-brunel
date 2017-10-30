@@ -5,7 +5,7 @@
 #include <vector>
 #include <fstream>
 #include <cassert>
-
+#include <random>
 
 
 using namespace std;
@@ -18,7 +18,7 @@ double membrane_pot_;
 int nb_spikes_;
 vector <double> spikes_time_;
 vector <double> time_buffer_;
-int delay_;	
+int delay_= 25;	
 int internal_time_;
 //true if exitatory
 //false if inhibitory
@@ -37,7 +37,7 @@ double J_ = 0.1;
 	public:
 	
 //CONSTRUCTORS	
-Neuron(int Delay, double J);
+Neuron ();
 
 // GETTERS	
 double getH() const;
@@ -45,10 +45,11 @@ double getMembpot() const ;
 	/**
 	 * @return number of spikes occured 
 	 */
-int getNbSpikes() ;
+int getNbSpikes() const;
 int getInternalTime() const;
 int getDelay() const;	
-
+bool getEx();
+double getJ();
 	
 vector<double> getSpikesTime();
 
@@ -71,7 +72,7 @@ bool Refractory();
 bool update (double const& I);
 	
 //update buffer
-void updatebuffer (int pos, Neuron n);
+void updatebuffer (int pos, double value);
 
 //DESTRUCTOR
 //~Neuron();	
