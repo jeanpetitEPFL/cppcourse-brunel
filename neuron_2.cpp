@@ -110,6 +110,7 @@ bool Neuron::ifPotMaxReached()
 		nb_spikes_+=1;
 		spikes_time_.push_back(internal_time_*h_);
 		SetNewPot();
+		
 	}
 	
 
@@ -152,16 +153,19 @@ bool Neuron::ifPotMaxReached()
 // update the neuron's potential every h time	
 	bool Neuron::update (double const&  I, int pois)
 	{
-		internal_time_+=1;
+		
+		//cout<< internal_time_<<"\t";
+		bool h;
 		if (spikes_time_.empty())
 		{
 			SetPot(I, pois);
 			if(ifPotMaxReached())
 			{
-				
+				internal_time_+=1;
 				PotMaxReached();
-				return true;
-			} else {return false;}
+				
+				h= true;
+			} else {h= false;}
 		}		
 		else 
 		{		
@@ -173,10 +177,13 @@ bool Neuron::ifPotMaxReached()
 			
 			if(ifPotMaxReached())
 			{
-				
+				internal_time_+=1;
 				PotMaxReached();
-				return true;
-			} else { return false;}
+				h= true;
+			} else { h= false;}
 		}
+		
+		internal_time_+=1;
+		return h;
 	}
 
