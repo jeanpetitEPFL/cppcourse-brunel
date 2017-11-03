@@ -8,7 +8,14 @@ Neuron::Neuron()
 	membrane_pot_=Vreset_;
 	nb_spikes_=0.0;
 	time_buffer_ = vector<double>((delay_+1),0);
+
 //buffer vector size : delay+1
+	
+}
+
+void Neuron::connect(int i)
+{
+	connections_.push_back(i);
 }
 	
 // GETTERS	
@@ -35,7 +42,11 @@ Neuron::Neuron()
 	{
 		return spikes_time_;
 	}
-	
+	double Neuron::getLastTimeSpike()
+	{
+		return spikes_time_.back();
+		
+	}
 	int Neuron::getDelay()  const
 	{
 		return delay_;
@@ -50,7 +61,12 @@ Neuron::Neuron()
 	{
 		return J_;
 	}
+
 	
+	vector<int> Neuron::getConnections()
+	{
+		return connections_;
+	}
 // SETTERS	
 	void Neuron::setMembPot(double m)
 	{
@@ -65,6 +81,8 @@ Neuron::Neuron()
 	{
 		E_ = alpha;
 	}
+
+
 //update the buffer time ;
 //send an assert
 //add J in the buffer's position chosen
@@ -77,7 +95,7 @@ Neuron::Neuron()
 	
 // determine if the potential max is reached
 // and if, push into spiketime the internal time of the neuron.	
-	bool Neuron::ifPotMaxReached()
+bool Neuron::ifPotMaxReached()
 	{
 		if (membrane_pot_>= Vthreshold_)
 		{ return true; } 
@@ -90,16 +108,17 @@ Neuron::Neuron()
 	void Neuron::PotMaxReached ()
 	{
 		nb_spikes_+=1;
-			
-			spikes_time_.push_back(internal_time_*h_);
-			SetNewPot();
+		spikes_time_.push_back(internal_time_*h_);
+		SetNewPot();
 	}
 	
+
 //return if refractory time is over
 	bool Neuron::Refractory()
 	{
 		if(internal_time_ *h_- spikes_time_.back()>= tau_ref_ )
 		{ return true;}
+		else {return false;}
 	}
 	
 // set the increase of the potential 
@@ -107,14 +126,15 @@ Neuron::Neuron()
 
 //+ add J from other neurons that spiked
 //then clear the current buffer position	
-	void Neuron::SetPot(double I)
+	void Neuron::SetPot(double I, int pois)
 	{
-		random_device rd;
-		mt19937 gen(rd());
-		poisson_distribution<int> pois(0.2);
 		double New;
 		
-		New = ((exp(-h_/tau_) * membrane_pot_)+ (I*R_*(1-exp(-h_/tau_))) + time_buffer_[internal_time_%(delay_+1)] +pois(gen)*0.1);
+		New = 	((exp(-h_/tau_) * membrane_pot_) 
+				+(I*R_*(1-exp(-h_/tau_)))
+				+ time_buffer_[internal_time_%(delay_+1)] 
+				+pois*0.1);
+				
 		setMembPot(New);
 		time_buffer_[internal_time_%(delay_+1)] =0.0;
 	}
@@ -130,25 +150,25 @@ Neuron::Neuron()
 	}
 	
 // update the neuron's potential every h time	
-	bool Neuron::update (double const&  I)
+	bool Neuron::update (double const&  I, int pois)
 	{
 		internal_time_+=1;
 		if (spikes_time_.empty())
 		{
-			SetPot(I);
+			SetPot(I, pois);
 			if(ifPotMaxReached())
 			{
 				
 				PotMaxReached();
 				return true;
-			}
+			} else {return false;}
 		}		
 		else 
 		{		
 			if(!Refractory()) {SetNewPot();}
-			if (Refractory() and !ifPotMaxReached()) //determine if refractory time is over and if membrane potential >=Vthreshold
+			if ((Refractory()) and (!ifPotMaxReached())) //determine if refractory time is over and if membrane potential >=Vthreshold
 			{
-				SetPot(I);
+				SetPot(I, pois);
 			}
 			
 			if(ifPotMaxReached())
@@ -156,7 +176,7 @@ Neuron::Neuron()
 				
 				PotMaxReached();
 				return true;
-			}
+			} else { return false;}
 		}
 	}
-	
+

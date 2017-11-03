@@ -14,14 +14,15 @@ class Network
 	private:
 //vont disparaitre
 
-double global_time_;
-int nb_exitatory= 10000;
-int nb_inhibitory=2500;
-int CE_=1000;
-int CI_=250;
-
 vector <Neuron*> network_;
-vector <vector <int> > c_table_;
+double global_time_;
+int nb_exitatory;
+int nb_inhibitory;
+int CE_;
+int CI_;
+
+
+
 
 
 	public:
@@ -34,8 +35,10 @@ int compteur(int i);
 void simulation (double tstart, double tstop, double I);	
 
 void addNeuron();
-void set_connectivity();
+void create();
+void setConnectivity();
 
+//void store();
 	
 ~Network();
 };

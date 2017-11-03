@@ -7,11 +7,9 @@ using namespace std;
 
 int main()
 {
-	
-	
-	Network alpha(12500, 12500);
-	
-	alpha.simulation(0,100, 1.01);
+
+	Network brain(10000, 2500);	
+	brain.simulation(0,1000, 0);
 	
 	
 	return 0;
