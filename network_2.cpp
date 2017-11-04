@@ -1,3 +1,17 @@
+/**	
+	@class Network
+	@author Jeanpetit FLorent
+	@date 10/2017
+    @brief network
+ 
+	
+	@details 
+	purpose of the network class
+	- create a network of neurons
+	- set connnections between neurons in the same network
+	- create a simulation loop which represent the running of a "brain"
+*/
+
 #include "network_2.hpp"
 
 using namespace std;
@@ -31,7 +45,15 @@ void Network::create()
 	}
 	
 }
-
+int Network::getNetworkSize()
+{
+	return network_.size();
+}
+vector<Neuron*> Network::getNetwork()
+{
+	
+	return network_;
+}
 void Network:: setConnectivity()
 {
 	random_device rd;
@@ -50,6 +72,7 @@ void Network:: setConnectivity()
 			network_[d(gen)]->connect(i);
 		}	
 	}
+	
 }
 
 double Network::getGlobalTime()
@@ -58,7 +81,8 @@ double Network::getGlobalTime()
 }
 
 
-void Network::simulation(double tstart, double tstop, double I) 
+void Network::simulation(double tstart, double tstop, 
+				double I, int g, int poisson) 
 {
 	global_time_ = tstart;
 
@@ -67,7 +91,7 @@ void Network::simulation(double tstart, double tstop, double I)
 	
 	random_device rd;
 	mt19937 gen(rd());
-	poisson_distribution<int> pois(2);
+	poisson_distribution<int> pois(poisson);
 		
 	while((global_time_*0.1) < tstop) 
 	{		
@@ -75,19 +99,27 @@ void Network::simulation(double tstart, double tstop, double I)
 		{
 			if (network_[i]->update(I,pois(gen)))
 			{
+			int delay (network_[i]->getDelay());
+			int time (network_[i]->getInternalTime());
+			
 			myfile<<global_time_*0.1<<"\t";
 			myfile<< (i +1) <<endl;
+			
 			for (auto& element:network_[i]->getConnections())
-				{	
-					if (network_[i]->getEx()==true)
-					{		
-						network_[element]->updatebuffer((network_[i]->getInternalTime()+15)%(16),0.1);
-					}
-						if(network_[i]->getEx()==false)
-					{
-							network_[element]->updatebuffer((network_[i]->getInternalTime()+15)%(16),-0.5);
-					}
-				}		
+			{	
+				if (network_[i]->getEx()==true)
+				{		
+					double J(network_[i]->getJ());
+					network_[element]->
+					updatebuffer((time + delay)%(delay+1),J);
+				}
+				if(network_[i]->getEx()==false)
+				{
+					double J(network_[i]->getJ()*g);
+					network_[element]->
+					updatebuffer((time + delay)%(delay+1),J);
+				}
+			}		
 			}
 		}		
 		global_time_ += 1 ;

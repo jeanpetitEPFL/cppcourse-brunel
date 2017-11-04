@@ -1,3 +1,17 @@
+/**	
+	@class Neuron
+	@author Jeanpetit FLorent
+	@date 10/2017
+    @brief neuron
+ 
+	
+	@details 
+	purpose of the class neuron :
+	- create a neuron
+	- update the neuron's potential in function of internal time
+	- store connections between neurons
+*/
+
 #include "neuron_2.hpp"
 
 
@@ -102,9 +116,10 @@ bool Neuron::ifPotMaxReached()
 		else 
 		{ return false; }
 	}
-
-//when Vthreshold reached, add internal time into the spikestime vector
-//then set the membrane potential to Vreset 
+/**
+ *	when Vthreshold reached, add internal time into the spikestime vector
+ * then set the membrane potential to Vreset 
+ */
 	void Neuron::PotMaxReached ()
 	{
 		nb_spikes_+=1;
@@ -113,8 +128,9 @@ bool Neuron::ifPotMaxReached()
 		
 	}
 	
-
-//return if refractory time is over
+/**
+ *	return yes if refractory time is over
+ */
 	bool Neuron::Refractory()
 	{
 		if(internal_time_ *h_- spikes_time_.back()>= tau_ref_ )
@@ -122,11 +138,14 @@ bool Neuron::ifPotMaxReached()
 		else {return false;}
 	}
 	
-// set the increase of the potential 
-// when the neuron is not in its refractory time
-
-//+ add J from other neurons that spiked
-//then clear the current buffer position	
+/**
+ * set the increase of the potential 
+ * when the neuron is not in its refractory time
+ */
+/**
+ *  add signal from other neurons that spiked and the back grounf noise
+ *	then clear the current buffer position	
+ */
 	void Neuron::SetPot(double I, int pois)
 	{
 		double New;
@@ -142,6 +161,9 @@ bool Neuron::ifPotMaxReached()
 	
 // set the potential at Vreset=0
 // after a spike	
+/**
+hello darkness my old friend
+*/
 	void Neuron::SetNewPot()
 	{
 		double New;

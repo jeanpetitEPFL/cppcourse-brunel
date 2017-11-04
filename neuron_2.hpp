@@ -1,5 +1,15 @@
-/**
-\author Jeanpetit Florent
+/**	
+	@class Neuron
+	@author Jeanpetit FLorent
+	@date 10/2017
+    @brief neuron
+ 
+	
+	@details 
+	purpose of the class neuron :
+	- create a neuron
+	- update the neuron's potential in function of internal time
+	- store connections between neurons
 */
 
 #ifndef NEURON_HPP	
@@ -48,91 +58,112 @@ Neuron ();
 // GETTERS	
 
 /**
-	 @return double // return step time = 0.1 ms 
-	 */
+* @return double // return step time = 0.1 ms 
+*/
 double getH() const;
+
 /**
-	 @return double //  return membrane potential of the neuron
-	 */
+* @return double //  return membrane potential of the neuron
+*/
 double getMembpot() const ;
 
 /**
-	 @return int // return number of spikes occured 
-	 */
+* @return int // return number of spikes occured 
+*/
 int getNbSpikes() const;
+
 /**
-	 @return int // return the intetnal time of the neuron
-	 */
+* @return int // return the intetnal time of the neuron
+*/
 int getInternalTime() const;
+
 /**
-	 @return int //  return the delay
-	 */
+* @return int //  return the delay
+*/
 int getDelay() const;	
+
 /**
-	 @return bool //  return myes if the neuron is an exitatory neuron,
-	  no if not
-	 */
+* @return bool //  return yes if the neuron is an exitatory neuron,
+* no if not
+*/
 bool getEx();
+
 /**
-	 @return double //  return J
-	 */
+* @return double //  return J
+*/
 double getJ();
+
 /**
-	 @return vector<double> //  return a table of time
-	 when spikes occured for this neuron
-	 */
+	@return vector<double> //  return a table of time
+*	when spikes occured for this neuron
+*/
 vector<double> getSpikesTime();
+
 /**
-	 @return double //  return the time of the last spikes that occured
-	 */
+ * return the time of the last spikes that occured
+ *	@return double
+ */
 double getLastTimeSpike();
 
 vector<int> getConnections();
 //SETTERS
 /**
-	 @return void //  set membrane potential
-	 @param double
-	 */
+ * set membrane potential
+ *	@return void 
+ *	@param double
+ */
 void setMembPot(double m);
+
 /**
-	 @return void //  set the number of spikes
-	 @param int
-	 */
+ *	set the number of spikes 
+ *	@return void
+ *	@param int
+ */
 void setNbSpikes (int nbs);
+
 /**
-	 @return double //  set the boolean E:
-	  true for exitatory neuron and false for inhibitory neuron
-	  @param boolean
-	 */
+ *	set the boolean E:
+ * 	true for exitatory neuron and false for inhibitory neuron
+ *	@return double 
+ *	@param boolean
+ */
 void setEx(bool alpha);
 
 
 
 //methods used in update, to determine and set potential
 /**
-	 @return bool //  return yes if Vthreshold is reached
-	 */	
+ * return yes if Vthreshold is reached
+ *	@return bool
+ */	
 bool ifPotMaxReached();
 /**
-	 @return void // if Vthreshold is reached
-	 */
+ * if Vthreshold is reached :
+ * 	increase the numbde of spike and set the potential to Vreset=0
+ *	@return void 
+ */
 void PotMaxReached();
+
 /**
-	 set the new potential with the buffer, the background noise,
-	 the external current
-	 @return void // set membrane potential each time
-	 @param external current I
-	 */
+ *	@brief
+ *	set the new potential with the buffer, the background noise,
+ *	the external current
+ *	@return void
+ *	@param int : external current I
+ * 	@param int : poisson distribution
+ */
 void SetPot(double I, int pois);
+
 /**
-	 @return void // if Vthreshold is reached,
-	 set the membrane potential to 0=Vreset
-	 */
+*	@return void // if Vthreshold is reached,
+*	set the membrane potential to 0=Vreset
+*/
 void SetNewPot();
+
 /**
-	 @return bool // return true if the neuron is not in refractory time,
-	 false if not
-	 */
+*	@return bool // return true if the neuron is not in refractory time,
+*	false if not
+*/
 bool Refractory();
 
 
@@ -140,19 +171,19 @@ void connect(int i);
 
 //update neuron's potential state
 /**
-	 update potential each step time,
-	 in function of the refractory time, 
-	 @return bool // return true if the neuron spikes
-	 @param external current I
-	 */
+* update potential each step time,
+* in function of the refractory time, 
+* @return bool // return true if the neuron spikes
+* @param external current I
+*/
 bool update (double const& I, int pois);
 	
 //update buffer
 /**
-	insert a new value in the buffer 
-	 @return void //
-	 @param int buffer's position, double value
-	 */
+* insert a new value in the buffer 
+* @return void //
+* @param int buffer's position, double value
+*/
 void updatebuffer (int pos, double value);
 
 //DESTRUCTOR
