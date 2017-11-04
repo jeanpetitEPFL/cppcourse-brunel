@@ -34,81 +34,94 @@ vector <double> spikes_time_;
 vector <double> time_buffer_;
 int delay_= 15;	
 int internal_time_;
-//true if exitatory
-//false if inhibitory
 bool E_;
-double J_ = 0.1;
-
+double J_ = (0.1);
 vector <int> connections_;
-
-	 double C_ =(40.0); 
-	 double tau_ =(20.0);
-	 double tau_ref_ =(2.0);
-	 double Vreset_ =(0.0);
-	 double Vthreshold_ =(20.0);
-	 double h_ =(0.1);
-	 double R_ =(20.0);
+double C_ =(40.0); 
+double tau_ =(20.0);
+double tau_ref_ =(2.0);
+double Vreset_ =(0.0);
+double Vthreshold_ =(20.0);
+double h_ =(0.1);
+double R_ =(20.0);
 
 	
 	public:
 	
 //CONSTRUCTORS	
+/**
+ *	constructor of neuron
+ */
 Neuron ();
 
 // GETTERS	
 
 /**
-* @return double // return step time = 0.1 ms 
-*/
+ *	return step time = 0.1 ms  
+ *	@return double
+ */
 double getH() const;
 
 /**
-* @return double //  return membrane potential of the neuron
-*/
+ *	return membrane potential of the neuron
+ *	@return double
+ */
 double getMembpot() const ;
 
 /**
-* @return int // return number of spikes occured 
-*/
+ *	return number of spikes occured 
+ *	@return int
+ */
 int getNbSpikes() const;
 
 /**
-* @return int // return the intetnal time of the neuron
-*/
+ *	return the intetnal time of the neuron
+ *	@return int 
+ */
 int getInternalTime() const;
 
 /**
-* @return int //  return the delay
-*/
+ *	return the delay
+ *	@return int 
+ */
 int getDelay() const;	
 
 /**
-* @return bool //  return yes if the neuron is an exitatory neuron,
-* no if not
-*/
+ *	return true if the neuron is an exitatory neuron,
+ *	false if not
+ *	@return bool  
+ */
 bool getEx();
 
 /**
-* @return double //  return J
-*/
+ *	return J
+ *	@return double
+ */
 double getJ();
 
 /**
-	@return vector<double> //  return a table of time
-*	when spikes occured for this neuron
-*/
+ *	return a table of time
+ *	when spikes occured for this neuron
+ *	@return vector<double> 
+ */
 vector<double> getSpikesTime();
 
 /**
- * return the time of the last spikes that occured
+ *	return the time of the last spikes that occured
  *	@return double
  */
 double getLastTimeSpike();
 
+/**
+ *	return the vector of connections of this neuron
+ *	@return vector<int> 
+ */
 vector<int> getConnections();
+
+
 //SETTERS
 /**
- * set membrane potential
+ *	set membrane potential
  *	@return void 
  *	@param double
  */
@@ -130,22 +143,19 @@ void setNbSpikes (int nbs);
 void setEx(bool alpha);
 
 
-
-//methods used in update, to determine and set potential
 /**
- * return yes if Vthreshold is reached
+ *	return yes if Vthreshold is reached
  *	@return bool
  */	
 bool ifPotMaxReached();
 /**
- * if Vthreshold is reached :
+ *	if Vthreshold is reached :
  * 	increase the numbde of spike and set the potential to Vreset=0
  *	@return void 
  */
 void PotMaxReached();
 
 /**
- *	@brief
  *	set the new potential with the buffer, the background noise,
  *	the external current
  *	@return void
@@ -155,35 +165,44 @@ void PotMaxReached();
 void SetPot(double I, int pois);
 
 /**
-*	@return void // if Vthreshold is reached,
-*	set the membrane potential to 0=Vreset
-*/
+ *	if Vthreshold is reached,
+ * 	set the membrane potential to 0=Vreset
+ *	@return void
+ */
 void SetNewPot();
 
 /**
-*	@return bool // return true if the neuron is not in refractory time,
-*	false if not
-*/
+ *	return true if the neuron is not in refractory time,
+ *	false if not
+ *	@return bool 
+ */
 bool Refractory();
 
-
+/**
+ *	method used in class Network,
+ *	will add a connection between 2 neurons
+ *	@return void
+ *	@param int : position
+ */
 void connect(int i);
 
-//update neuron's potential state
+
 /**
-* update potential each step time,
-* in function of the refractory time, 
-* @return bool // return true if the neuron spikes
-* @param external current I
-*/
+ *	update potential each step time,
+ *	in function of the refractory time, 
+ *	return true if the neuron spikes
+ *	@return bool
+ *	@param external current I
+ */
 bool update (double const& I, int pois);
 	
-//update buffer
+
 /**
-* insert a new value in the buffer 
-* @return void //
-* @param int buffer's position, double value
-*/
+ *	insert a new value in the buffer 
+ *	@return void 
+ *	@param int buffer's position
+ *	@param double value
+ */
 void updatebuffer (int pos, double value);
 
 //DESTRUCTOR

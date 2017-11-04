@@ -3,6 +3,11 @@
 #include "network_2.hpp"
 #include "googletest-master/googletest/include/gtest/gtest.h"
 
+
+/**
+ *	test one neuron
+ *	the potential after one update
+ */ 
 TEST (SingleNeuronTest, Neuron_Potential) 
 {
 	Neuron neuronA;
@@ -11,6 +16,10 @@ TEST (SingleNeuronTest, Neuron_Potential)
 	EXPECT_EQ(20*(1.0-exp(-0.1/20)), neuronA.getMembpot());
 }
 
+/**
+ *	test one neuron
+ *	time of the first spike
+ */ 
 TEST (SingleNeuronTest, Neuron_SpikeTime01)
 {
 	Neuron neuronA;
@@ -23,6 +32,10 @@ TEST (SingleNeuronTest, Neuron_SpikeTime01)
 	EXPECT_EQ(1, neuronA.getNbSpikes());
 }
 
+/**
+ *	test one neuron
+ *	time of the second spike
+ */ 
 TEST (SingleNeuronTest, Neuron_SpikeTime02)
 {
 	Neuron neuronA;
@@ -36,6 +49,10 @@ TEST (SingleNeuronTest, Neuron_SpikeTime02)
 	EXPECT_EQ(2, neuronA.getNbSpikes());
 }
 
+/**
+ *	test one neuron
+ *	time of the third spike
+ */ 
 TEST (SingleNeuronTest, Neuron_SpikeTime03)
 {
 	Neuron neuronA;
@@ -49,6 +66,10 @@ TEST (SingleNeuronTest, Neuron_SpikeTime03)
 	EXPECT_EQ(3, neuronA.getNbSpikes());
 }
 
+/**
+ *	test one neuron
+ *	number of spike with an external current I=1.00
+ */ 
 TEST (SingleNeuronTest, Neuron_SpikeTime04)
 {
 	Neuron neuronA;
@@ -60,7 +81,10 @@ TEST (SingleNeuronTest, Neuron_SpikeTime04)
 	
 	EXPECT_EQ(0, neuronA.getNbSpikes());
 }
-
+/**
+ *	test two neurons interaction
+ *	buffer of neuronB if A and B connected
+ */ 
 TEST(TwoNeuronTest, Buffer) 
 {
 
@@ -84,7 +108,10 @@ TEST(TwoNeuronTest, Buffer)
 
 }
 
-
+/**
+ *	test network
+ *	size of network
+ */ 
 TEST(Networktest, Network_Time )
 {
 
@@ -94,11 +121,6 @@ EXPECT_EQ(12500, net.getNetworkSize());
 net.simulation(0,100,0,5,2);
 EXPECT_EQ(1000, net.getGlobalTime());
 
-
-		//net.simulation(0,200, 1.01);
-	//second simulation test
-	//EXPECT_EQ(2, net.compteur(net.simulation(0,200, 1.01)));
-	//melzvhzeogh
 
 }
 
