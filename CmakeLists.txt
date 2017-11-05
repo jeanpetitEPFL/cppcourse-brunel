@@ -14,10 +14,10 @@ add_subdirectory(googletest-master)
 include_directories(${googletest-master/googletest}/include ${googletest-master/googletest})
 
 # executable "main" 
-add_executable(main main_2.cpp neuron_2.cpp network_2.cpp)
+add_executable(main main_2.cpp neuron.cpp network.cpp)
 
 #executables for google-test
-add_executable(neuron_test neuron_2.cpp network_2.cpp neuron_test.cpp)
+add_executable(neuron_test neuron.cpp network.cpp neuron_test.cpp)
 target_link_libraries(neuron_test gtest gtest_main)
 add_test(neuron_test neuron_test)
 

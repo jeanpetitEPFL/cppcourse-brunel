@@ -1,5 +1,5 @@
 
-#include "network_2.hpp"
+#include "network.hpp"
   
 #include <fstream>
 #include <iostream>
@@ -15,7 +15,7 @@ int main()
 	*/
 	
 	Network brain(10000, 2500);	
-	brain.simulation(0,1000, 0, 5, 2);
+	brain.simulation(0,1000, 0, -5, 2);
 	
 	
 	return 0;
