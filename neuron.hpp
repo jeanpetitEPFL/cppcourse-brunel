@@ -168,6 +168,8 @@ void SetPot(double I, int pois);
  *	if Vthreshold is reached,
  * 	set the membrane potential to 0=Vreset
  *	@return void
+ *	@param double :external current I
+ *	@param int : poisson
  */
 void SetNewPot();
 
@@ -192,7 +194,8 @@ void connect(int i);
  *	in function of the refractory time, 
  *	return true if the neuron spikes
  *	@return bool
- *	@param external current I
+ *	@param double : external current I
+ *	@param int : poisson
  */
 bool update (double const& I, int pois);
 	
