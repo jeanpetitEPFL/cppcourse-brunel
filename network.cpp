@@ -1,7 +1,7 @@
 /**	
 	@class Network
 	@author Jeanpetit FLorent
-	@date 10/2017
+	@date 05/11/2017
     @brief network
  
 	
@@ -102,7 +102,7 @@ void Network::simulation(double tstart, double tstop,
 	
 	//open a file
 	ofstream myfile;
-	myfile.open("spikes.gdf");
+	myfile.open("spikes.gdf", ios::out|ios::out);
 	
 	random_device rd;
 	mt19937 gen(rd());
@@ -131,6 +131,7 @@ void Network::simulation(double tstart, double tstop,
 			//for each neuron connected to the one that spiked
 			//update its buffer 
 			//according to the J of the neurons that spiked
+			//(J exitatory ot inhibitory)
 			for (auto& element:network_[i]->getConnections())
 			{	
 				if (network_[i]->getEx()==true)

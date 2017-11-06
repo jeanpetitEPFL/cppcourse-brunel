@@ -1,7 +1,7 @@
 /**	
 	@class Network
 	@author Jeanpetit FLorent
-	@date 10/2017
+	@date 05/11/2017
     @brief network
  
 	
@@ -39,7 +39,7 @@ int CI_;
 	
 //CONSTRUCTOR
 /**
- *	constructor of network :
+ *	@a constructor of network :
  *	create the network of neurons and set the connections between them
  *	@param int : i, number of exitatory neurons
  *	@param int : j, number of inhibitory neurons
@@ -71,7 +71,7 @@ int compteur(int i);
  *	during the time (Tstop - Tstart)
  *	each neuron of the network is updated.
  *	 If a neuron spikes the time is stored in a file "spikes.gdf",
- *	and each neuron's buffer connecte to this neuron is updated
+ *	and each neuron's buffer connected to this neuron is updated
  *	@return void
  *	@param double : time start of the simulation
  *	@param double : time end  of the simulation
@@ -96,7 +96,7 @@ void create();
 /**
  *	set connections between different neurons;
  *	CE_ connections with exitatory neurons,
- * 	 CI_ connections with inhibitory neurons
+ * 	CI_ connections with inhibitory neurons
  *	@return void
  * 
  */
