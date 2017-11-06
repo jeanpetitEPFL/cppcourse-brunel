@@ -65,8 +65,6 @@ int getNetworkSize();
  */
 vector<Neuron*> getNetwork();
 
-int compteur(int i);
-
 /**
  *	during the time (Tstop - Tstart)
  *	each neuron of the network is updated.
