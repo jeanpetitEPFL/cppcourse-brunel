@@ -50,7 +50,7 @@ double R_ =(20.0);
 	
 //CONSTRUCTORS	
 /**
- *	constructor of neuron
+ *	@a constructor of neuron
  */
 Neuron ();
 
