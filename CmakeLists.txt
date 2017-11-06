@@ -10,15 +10,16 @@ project(neuron)
 
 #google-test
 enable_testing()
-add_subdirectory(googletest-master)
-include_directories(${googletest-master/googletest}/include ${googletest-master/googletest})
+#add_subdirectory(gtest)
+find_package(gtest)
+include_directories(gtest/include gtest)
 
 # executable "main" 
 add_executable(main main_2.cpp neuron.cpp network.cpp)
 
 #executables for google-test
 add_executable(neuron_test neuron.cpp network.cpp neuron_test.cpp)
-target_link_libraries(neuron_test gtest gtest_main)
+target_link_libraries(neuron_test gtest gtest_main ${GTEST_BOTH_LIBRARIES}pthread)
 add_test(neuron_test neuron_test)
 
 
@@ -37,7 +38,7 @@ if(DOXYGEN_FOUND)
 
     # We configure the doxyfile for make.
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile @ONLY)
-    add_custom_target(doc #ALL
+    add_custom_target(doc ALL
         ${DOXYGEN_EXECUTABLE} ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
