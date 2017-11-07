@@ -1,16 +1,18 @@
-CPPCOURSE-BRUNEL NETWORK
 ## author : Jeanpetit Florent
 
-
+## CPPCOURSE-BRUNEL NETWORK
 
 the aim of this programm is to reproduce Mr Brunel's theory.
 
-download this github
-extract
 
 ## CMake
 
+download this github
+
+extract
+
 add an empty folder named "build"
+
 in the terminal go to build
 
 add command : cmake ..
@@ -42,7 +44,7 @@ this will open a window with the plot
 
 ## Run Tests
 
-in termi,al go to build folder
+in terminal go to build folder
 
 add command : ./neuron_test to run google-tests
 
