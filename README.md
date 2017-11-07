@@ -9,6 +9,7 @@ extract
 add an empty folder named "build"
 in the terminal go to build
 add command : cmake ..
+
 add command : make
 
 this sould compile the main programm ad update in the same time the documentation on Doxygen.
