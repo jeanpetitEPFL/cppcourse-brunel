@@ -69,14 +69,14 @@ vector<Neuron*> Network::getNetwork()
 
 void Network:: setConnectivity()
 {
-	random_device rd;
-	mt19937 gen(rd());
+	static random_device rd;
+	static mt19937 gen(rd());
 	
 	//return an int between O and nb_exitatory-1
-	uniform_int_distribution<> dis(0,nb_exitatory-1);
+	static uniform_int_distribution<> dis(0,nb_exitatory-1);
 	
 	//return an int between nb_exitatory and nb_exitatory+nb_inhibitory
-	uniform_int_distribution<> d(nb_exitatory,nb_inhibitory+nb_exitatory-1); 
+	static uniform_int_distribution<> d(nb_exitatory,nb_inhibitory+nb_exitatory-1); 
 	
 	
 	for (size_t i=0; i<network_.size(); ++i)
@@ -96,7 +96,7 @@ void Network:: setConnectivity()
 }
 
 void Network::simulation(double tstart, double tstop, 
-						 double I, int g, int poisson) 
+						 double I, double g, int poisson) 
 {
 	global_time_ = tstart;
 	
@@ -104,12 +104,14 @@ void Network::simulation(double tstart, double tstop,
 	ofstream myfile;
 	myfile.open("spikes.gdf", ios::out|ios::out);
 	
-	random_device rd;
-	mt19937 gen(rd());
+	static random_device rd;
+	static mt19937 gen(rd());
 	
 	//return an int following the poisson law
-	poisson_distribution<int> pois(poisson);
+	static poisson_distribution<int> pois(poisson);
 		
+	//time input in simulation method is in ms
+	//step is in 0.1*ms
 	while((global_time_*0.1) < tstop) 
 	{		
 		for (size_t i = 0; i < network_.size(); i++)
@@ -122,7 +124,7 @@ void Network::simulation(double tstart, double tstop,
 				int time (network_[i]->getInternalTime());
 			
 				//verify the stream with the file spikes.gdf
-				//assert(!myfile.fail());
+				assert(!myfile.fail());
 			
 				myfile<<global_time_*0.1<<"\t";
 				myfile<< (i +1) <<endl;
