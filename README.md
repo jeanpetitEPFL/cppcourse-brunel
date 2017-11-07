@@ -8,6 +8,7 @@ download this github
 extract
 add an empty folder named "build"
 in the terminal go to build
+
 add command : cmake ..
 
 add command : make
@@ -19,9 +20,12 @@ and remove "ALL" in the command "add_custom_target"
 add command : ./main to run the main program
 
 to get a plot you can go to this adress https://cs116-plot.antoinealb.net/
+
 or use the small python code "data.py"
 after the running of the main program a document named spikes.gdf is created with every spikes (time and neuron's number)
+
 add command : python data.py
+
 this will open a window with the plot
 
 add command : ./neuron_test to run google-tests
