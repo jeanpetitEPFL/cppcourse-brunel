@@ -1,5 +1,6 @@
 CPPCOURSE-BRUNEL NETWORK
-author : Jeanpetit Florent
+## author : Jeanpetit Florent
+
 
 
 the aim of this programm is to reproduce Mr Brunel's theory.
