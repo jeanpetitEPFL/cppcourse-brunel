@@ -77,7 +77,7 @@ vector<Neuron*> getNetwork();
  *	@param int : g for Vext/Vthreshold
  *	@param int : poisson for background noise
  */
-void simulation (double tstart, double tstop, double I, int g, int poisson);	
+void simulation (double tstart, double tstop, double I, double g, int poisson);	
 
 /**
  *	add a neuron in the vector network
