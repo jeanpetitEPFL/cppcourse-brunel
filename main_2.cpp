@@ -11,7 +11,8 @@ int main()
 	Network needs number of exitatory neurons,
 	number of inhibitory neurons
 	Simulation needs Tstart, Tstop, 
-	internal current I, g(which is Vext/Vthre)
+	internal current I, g and poisson
+	if other paramters wanted, change them here
 	*/
 	
 	Network brain(10000, 2500);	
