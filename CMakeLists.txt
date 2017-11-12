@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.6)
 
 #flag
 set(CMAKE_CXX_FLAGS "-W -Wall -pedantic -std=c++11")
+#without this command, C++11 library not found in my VM
 add_definitions("-std=c++11")
 # project named neuron
 project(neuron)
